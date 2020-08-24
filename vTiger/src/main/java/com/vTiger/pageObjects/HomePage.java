@@ -18,6 +18,9 @@ public class HomePage {
 		PageFactory.initElements(driver, this);
 	}
 	
+	
+	
+	
 	@FindBy(xpath="//img[contains(@src,'user.PNG')]")
 	private WebElement AdministratorIMG;
 	

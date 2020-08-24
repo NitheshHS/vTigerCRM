@@ -27,31 +27,21 @@ public class BaseClass {
 	public WebDriver driver;
 	public WebdriverUtils wLib=new WebdriverUtils();
 	public FileLib fLib=new FileLib();
-	public ExtentHtmlReporter htmlReporter;
-	public ExtentReports report;
-	public ExtentTest test;
+	public static WebDriver staticDriver;
 	@BeforeSuite
 	public void configBS() {
 
 	}
 	//@Parameters("browser")
 	@BeforeTest
-	public void configBT(String browserVar) {
+	public void configBT() {
 		//		if(browserVar.equals("chrome")) {
 		//			driver=new ChromeDriver();
 		//		}
 		//		else if(browserVar.equals("firefox")) {
 		//			driver=new FirefoxDriver();
 		//		}	
-		htmlReporter =new ExtentHtmlReporter("./extentreport.html");
-		htmlReporter.config().setDocumentTitle("vTiger CRM");
-		htmlReporter.config().setReportName("vTiger Test");
 
-		report=new ExtentReports();
-		report.attachReporter(htmlReporter);
-		report.setSystemInfo("OS", "Windows");
-		report.setSystemInfo("Version", "8.1");
-		report.setSystemInfo("ReporterName", "NitheshHS");
 	}
 
 	@BeforeClass
@@ -62,6 +52,7 @@ public class BaseClass {
 		else if(fLib.getPropertyKeyValue("browser").equals("firefox")) {
 			driver=new FirefoxDriver();
 		}
+		staticDriver=driver;
 		wLib.maximizeScreen(driver);
 		wLib.waitForWebelement(driver, 10);
 		driver.get(fLib.getPropertyKeyValue("url"));
@@ -73,20 +64,8 @@ public class BaseClass {
 
 	}
 	@AfterMethod
-	public void configAM(ITestResult result) throws IOException {
-		if(result.getStatus()==ITestResult.FAILURE) {
-			test.log(Status.FAIL, result.getName()+" is failed");
-			test.log(Status.FAIL, result.getThrowable());
-			String path = wLib.getScreenshot(driver, result.getName());
-			test.addScreenCaptureFromPath(path);
-		}
-		else if(result.getStatus()==ITestResult.SKIP) {
-			test.log(Status.SKIP, result.getName()+" is Skipped");
-			test.log(Status.SKIP, result.getThrowable());
-		}
-		else if(result.getStatus()==ITestResult.SUCCESS) {
-			test.log(Status.PASS, result.getName()+" is Passed");
-		}
+	public void configAM() throws IOException {
+
 		HomePage home=new HomePage(driver);
 		home.logout();
 
@@ -98,7 +77,7 @@ public class BaseClass {
 	@AfterTest
 	public void configAT() {
 
-		report.flush();
+		//report.flush();
 	}
 	@AfterSuite
 	public void congigAS() {

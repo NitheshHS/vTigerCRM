@@ -27,7 +27,7 @@ public class WebdriverUtils {
 	}
 	public void moveMouseToElementAndClick(WebDriver driver,WebElement element) {
 		Actions act=new Actions(driver);
-		act.moveToElement(element).click().build().perform();
+		act.moveToElement(element).build().perform();
 	}
 
 	public void selectDropDownByText(WebDriver driver,WebElement element,String text) {
@@ -107,15 +107,25 @@ public class WebdriverUtils {
 		
 	}
 
-	public String getScreenshot(WebDriver driver,String methodName) throws IOException {
-		String date = new SimpleDateFormat("dd_mm_yyyy_hh_mm_ss").format(new Date());
+	public String getScreenshot(WebDriver driver,String methodName) {
+		String date = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss").format(new Date());
 		String path = System.getProperty("user.dir")+"/screenshot/"+methodName+"_"+date+".PNG";
 		EventFiringWebDriver event=new EventFiringWebDriver(driver);
 		File src = event.getScreenshotAs(OutputType.FILE);
 		File dest=new File(path);
-		FileUtils.copyFile(src, dest);
+		try {
+			FileUtils.copyFile(src, dest);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return path;
 		
+	}
+	
+	public void moveToElementByLocation(WebDriver driver,WebElement element,int x, int y) {
+		Actions act=new Actions(driver);
+		act.moveToElement(element, x, y).build().perform();
 	}
 
 
