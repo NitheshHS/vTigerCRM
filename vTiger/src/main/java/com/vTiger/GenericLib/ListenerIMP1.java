@@ -2,7 +2,6 @@ package com.vTiger.GenericLib;
 
 import java.io.IOException;
 
-import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -13,78 +12,69 @@ import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 
-/**
- * 
- * @author NitheshHS
- *
- */
-public class ListenerIMP implements ITestListener{
-	WebDriver driver;
+public class ListenerIMP1 implements ITestListener{
 	ExtentHtmlReporter htmlReport;
 	ExtentReports reports;
 	ExtentTest test;
 
-	@Override
+	
 	public void onTestStart(ITestResult result) {
 		test=reports.createTest(result.getMethod().getMethodName());
-		test.log(Status.INFO, result.getMethod().getMethodName()+"test is started");
-
+		test.log(Status.INFO, result.getMethod().getMethodName()+" test started");
+		
 	}
 
-	@Override
 	public void onTestSuccess(ITestResult result) {
-		test.log(Status.PASS, result.getMethod().getMethodName()+" test is passed");
-
+		test.log(Status.PASS, result.getMethod().getMethodName()+" test passed");
+		
 	}
 
-	@Override
+	
 	public void onTestFailure(ITestResult result) {
-		test.log(Status.FAIL, result.getMethod().getMethodName()+" test is failed");
+		test.log(Status.FAIL, result.getMethod().getMethodName());
 		test.log(Status.FAIL, result.getThrowable());
 		WebdriverUtils wLib=new WebdriverUtils();
 		String imagePath = wLib.getScreenshot(BaseClass.staticDriver, result.getMethod().getMethodName());
 		try {
 			test.addScreenCaptureFromPath(imagePath);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
-
-
+		
 	}
 
-	@Override
+
 	public void onTestSkipped(ITestResult result) {
-		test.log(Status.SKIP, result.getMethod().getMethodName()+" test is skipped");
-
+		test.log(Status.SKIP, result.getMethod().getMethodName());
+		
 	}
 
-	@Override
+
 	public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-		// TODO Auto-generated method stub
-
+		
+		
 	}
 
-	@Override
+	
 	public void onStart(ITestContext context) {
-		htmlReport=new ExtentHtmlReporter("./extentreport.html");
+		htmlReport=new ExtentHtmlReporter(System.getProperty("user.dir")+"/test-output/ExtentReport.html");
 		htmlReport.config().setDocumentTitle("vTiger CRM");
-		htmlReport.config().setReportName("vTiger");
+		htmlReport.config().setReportName("RegressionTest");
 		htmlReport.config().setTheme(Theme.DARK);
-
+		
 		reports=new ExtentReports();
 		reports.attachReporter(htmlReport);
-		reports.setSystemInfo("OS", "Windows");
-		reports.setSystemInfo("Reporter", "NitheshHS");
-		reports.setSystemInfo("Browser", "chrome");
-		reports.setSystemInfo("Application", "vTiger crm");
-
+		reports.setSystemInfo("Application Name", "vTiger");
+		reports.setSystemInfo("Build version", "5.4.0");
+		reports.setSystemInfo("Browser", "Chrome");
+		reports.setSystemInfo("Reporter Name", "NitheshHS");
 	}
 
-	@Override
+
 	public void onFinish(ITestContext context) {
 		reports.flush();
-
+		
 	}
 
 }

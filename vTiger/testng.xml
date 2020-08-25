@@ -3,6 +3,7 @@
 <suite name="Suite">
   <test thread-count="5" name="Test">
     <classes>
+      <class name="com.vTiger.Test.Sample2Test"/>
       <class name="com.vTiger.Test.SampleTest"/>
     </classes>
   </test> <!-- Test -->

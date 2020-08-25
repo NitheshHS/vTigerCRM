@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
@@ -14,20 +13,17 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Parameters;
 
-import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.Status;
-import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.vTiger.pageObjects.HomePage;
 import com.vTiger.pageObjects.LoginPage;
 
+
+
 public class BaseClass {
 	public WebDriver driver;
+	public static WebDriver staticDriver;
 	public WebdriverUtils wLib=new WebdriverUtils();
 	public FileLib fLib=new FileLib();
-	public static WebDriver staticDriver;
 	@BeforeSuite
 	public void configBS() {
 
